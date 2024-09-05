@@ -389,7 +389,7 @@
                 <div class="product-header">
                     <p class="product-title">
                         <a href="#"><strong>柯智勛</strong></a>
-                        適用於各行各業!願意學!肯努力!智力正常!人際交流正常!無不良嗜好!無犯罪紀錄!
+                        適用於各行各業!願意學!肯努力!人際交流正常!無不良嗜好!無犯罪紀錄!
                     </p>
 
                 </div>
