@@ -1,729 +1,567 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品頁面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
 
-    <title>Hexashop Ecommerce HTML CSS Template</title>
+        .product-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
 
+        .product-images {
+    width: 60%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+.main-image {
+    width: 100%;
+    height: 650px; /* 固定主圖片高度 */
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #f0f0f0; /* 避免圖片加載時出現空白 */
+}
 
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+        .thumbnail-wrapper {
+            position: relative;
+            margin-top: 10px;
+        }
 
-    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css">
+        .thumbnail-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
 
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
+        .thumbnail-container::-webkit-scrollbar {
+            display: none;
+        }
 
-    <link rel="stylesheet" href="assets/css/lightbox.css">
-    <!--
+        .thumbnail-container img {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    object-fit: cover; /* 確保縮圖以相同的比例顯示 */
+}
 
-TemplateMo 571 Hexashop
+        .thumbnail-container img.active {
+            border: 2px solid #e94e77;
+        }
 
-https://templatemo.com/tm-571-hexashop
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
 
--->
+        .slide-btn-left {
+            left: -30px;
+        }
+
+        .slide-btn-right {
+            right: -30px;
+        }
+
+        .product-details {
+            width: 35%;
+            margin-top: 20px;
+        }
+
+        .product-header {
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-title a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        .product-subtitle {
+            font-size: 14px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .rating {
+            color: #ff9500;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .product-price {
+            margin-top: 20px;
+            font-size: 28px;
+            color: #e94e77;
+        }
+
+        .product-price hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 10px 0;
+        }
+
+        .product-price .original-price {
+            font-size: 18px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-price .discount-price {
+            font-size: 36px;
+            color: #ff2d55;
+            font-weight: bold;
+        }
+
+        .product-price .label {
+            background-color: #ff2d55;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .product-options {
+            margin: 20px 0;
+        }
+
+        .product-options label {
+            margin-right: 10px;
+        }
+
+        .product-actions {
+            margin: 20px 0;
+        }
+
+        .btn {
+            background-color: #e94e77;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .product-info {
+            margin-top: 30px;
+        }
+
+        .product-info h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .product-description,
+        .product-details-info {
+            margin-top: 40px;
+        }
+
+        .product-description h3,
+        .product-details-info h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .product-description p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .product-details-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .product-details-info table th,
+        .product-details-info table td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .breadcrumb {
+            margin-top: 20px;
+            color: #999;
+        }
+
+        .breadcrumb a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* 分段式展示風格 */
+        .section {
+            margin-top: 40px;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .product-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-images {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .product-details {
+                width: 100%;
+                max-width: 100%;
+                margin-top: 20px;
+            }
+
+            .product-title {
+                text-align: center;
+            }
+
+            .product-price {
+                text-align: center;
+            }
+
+            .btn,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            .thumbnail-container img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .slide-btn-left {
+                left: -20px;
+            }
+
+            .slide-btn-right {
+                right: -20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thumbnail-container img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .slide-btn-left {
+                left: -10px;
+            }
+
+            .slide-btn-right {
+                right: -10px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+            }
+
+            .navbar a {
+                font-size: 14px;
+                margin: 0 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- 導覽列 -->
+    <div class="navbar">
+        <a href="#">人力資源</a>
+        <a href="#">工作</a>
+        <a href="#">打工</a>
+        <a href="#">公司</a>
+        <a href="#">獵頭</a>
+        <a href="#">學生</a>
+        <a href="#">中高年</a>
+        <a href="#">高階</a>
+    </div>
 
-    <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
+    <div class="container">
+        <!-- 麵包屑導航 -->
+        <div class="breadcrumb">
+            <a href="#">人力資源</a> > <a href="#">台灣</a> > <a href="#">高級人力</a> > 柯智勛
+        </div>
+
+        <div class="product-content">
+            <!-- 產品圖片區域 -->
+            <div class="product-images">
+                <img src="assets/images/111.png" alt="Main Image" class="main-image" id="mainImage">
+
+                <div class="thumbnail-wrapper">
+                    <!-- 左滑動按鈕 -->
+                    <button class="slide-btn slide-btn-left" id="slideLeft">&#10094;</button>
+                    <div class="thumbnail-container" id="thumbnailContainer">
+                        <img src="assets/images/111.png" alt="Thumbnail 1" class="thumbnail active"
+                            onmouseover="changeImage(this)">
+                        <img src="assets/images/222.png" alt="Thumbnail 2" class="thumbnail"
+                            onmouseover="changeImage(this)">
+                        <img src="assets/images/333.png" alt="Thumbnail 3" class="thumbnail"
+                            onmouseover="changeImage(this)">
+                        <img src="assets/images/444.png" alt="Thumbnail 3" class="thumbnail"
+                            onmouseover="changeImage(this)">
+                        <img src="assets/images/555.png" alt="Thumbnail 3" class="thumbnail"
+                            onmouseover="changeImage(this)">
+                    </div>
+                    <!-- 右滑動按鈕 -->
+                    <button class="slide-btn slide-btn-right" id="slideRight">&#10095;</button>
+                </div>
+            </div>
+
+            <!-- 產品詳情區域 -->
+            <div class="product-details">
+                <!-- 產品標題與評分 -->
+                <div class="product-header">
+                    <p class="product-title">
+                        <a href="#"><strong>柯智勛</strong></a>
+                        適用於各行各業!願意學!肯努力!人際交流正常!無不良嗜好!無犯罪紀錄!
+                    </p>
+
+                </div>
+                <div class="rating">
+                    ⭐⭐⭐⭐⭐ 5.0 (20)
+                </div>
+
+                <!-- 產品價格 -->
+                <div class="product-price">
+                    <hr>
+                    <p class="original-price">市售價 月繳NT$45,000</p>
+                    <p class="discount-price">促銷價 月繳NT$40,000</p>
+                    <hr>
+                </div>
+
+                <!-- 產品規格選擇 -->
+                <div class="product-options">
+                    <label for="size"><strong>請選擇商品規格 :</strong></label>
+                    <select id="size">
+                        <option value="small">提供客製服務</option>
+                    </select>
+                </div>
+                <div class="product-options">
+                    <p><strong>商品長度 :</strong> 170cm(無灌水)</p>
+                    <p><strong>商品重量 :</strong> 56kg</p>
+                </div>
+
+                <!-- 優惠活動資訊 -->
+                <div class="product-info">
+                    <h2>優惠活動</h2>
+                    <p>7 天內下單附贈"一百萬"(<span style="font-size: 0.001em; opacity: 0.021;">毫</span>秒)加班時數</p>
+                    <p>滿 NT$100,000 免運費</p>
+                    <p><strong>配送方式 :</strong>全台灣</p>
+                </div>
+
+                <!-- 產品操作按鈕 -->
+                <div class="product-actions">
+                    <button class="btn">我要訂製</button>
+                    <button class="btn-secondary">收藏商品</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 商品資訊 (經驗與技能) -->
+        <div class="product-details-info section">
+            <h3>商品資訊</h3>
+            <table>
+                <!-- 經驗與技能 -->
+                <tr>
+                    <th>學歷背景</th>
+                    <td>
+                        大學：建國科技大學 - 遊戲與產品設計系<i class="fas fa-graduation-cap">(畢業)。</i><br>
+                        高職：致用高中 - 資訊科<i class="fas fa-graduation-cap">(畢業)。</i>
+                    </td>
+                </tr>
+                <tr>
+                    <th>專長技術</th>
+                    <td>後端開發：擅長使用 Laravel 進行後端開發，與使用AWS-EC2架設網站(此網站就是)。<br>
+                        資料庫：MySQL資料表規劃。<br>
+                        作品：Laravel&MySQL 資料庫點餐系統
+                        (包含
+                        <a href="https://github.com/s9231158/order/tree/User" target="_blank">GitHub</a>、
+                        <a href="https://alike-roadway-560.notion.site/new-96395ae9a5754e8fbc0d1af61d9f040d?pvs=4"
+                            target="_blank">資料表</a>、
+                        <a href="https://alike-roadway-560.notion.site/Order-API-768148dc97f448c3857f8d0bfcb46186?pvs=4"
+                            target="_blank">API 文件說明</a>)。
+                    </td>
+                </tr>
+                <tr>
+                    <th>證照</th>
+                    <td>金融市場常識與職業道德證照、人身保險業務員證照、普通小型車駕照、普通重型機車駕照、電腦硬體裝修丙級。</td>
+                </tr>
+                <tr>
+                    <th>社團經歷</th>
+                    <td>大學系學會 - 副活動長。<br>
+                        參加過新一代設計展。<br>
+                        校內熱音社樂團表演。
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品材質</th>
+                    <td>尋求穩定的心、刻苦好學的骨</td>
+                </tr>
+                <tr>
+                    <th>製造方式</th>
+                    <td>柯氏與王氏股份有愛公司共同製造</td>
+                </tr>
+                <tr>
+                    <th>商品產地</th>
+                    <td>台中</td>
+                </tr>
+                <tr>
+                    <th>商品規格</th>
+                    <td>提供客製服務</td>
+                </tr>
+                <tr>
+                    <th>庫存</th>
+                    <td>全台僅此一件</td>
+                </tr>
+                <tr>
+                    <th>商品排行</th>
+                    <td>No.1 - 台灣 | No.2 - 高級人力 | No.4柯智勛</td>
+                </tr>
+                <tr>
+                    <th>商品熱度</th>
+                    <td>被欣賞 7749 次</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- 商品介紹 -->
+        <div class="product-description section">
+            <h3>商品介紹</h3>
+            <p>大家好，我是智勛，今年27歲。我一直在尋找自己理想的生活方式，並且保持著對學習的熱情。從之前的食品製作、餐飲服務到動物照護、房務管理，我不僅學會了如何與不同年齡層的人溝通，也在工作中不斷探索遵循規矩與創新思考的平衡。
+
+目前，我希望能找到一份穩定的工作，並且願意在職前或在職期間，主動學習所需的技能和考取相關證照。我非常不願意因為自己的能力不足而拖累他人，這也是我保持對學習熱誠的原因之一。之前我在資策會學習了全端開發，並透過自學完成了一個點餐系統的後端開發。此外，我還負責了這個網站的架設，使用了AWS EC2進行部署。
+
+除了技術之外，在校期間我還參與過電子競技比賽，這段經歷讓我深刻體會到團隊協作和在壓力下完成任務的重要性。無論是需要遵循傳統的工作，還是富有創意的專案，我都會全力以赴。
+
+我期待能夠找到一個適合自己的職位，在未來的工作中不斷成長，持續進步。</p>
         </div>
     </div>
-    <!-- ***** Preloader End ***** -->
-
-
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="My Resume">
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#about">About Me</a></li>
-                            <li class="scroll-to-section"><a href="#experience">Experience</a></li>
-                            <li class="scroll-to-section"><a href="#skills">Skills</a></li>
-                            <li class="scroll-to-section"><a href="#contact">Contact</a></li>
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
-    <!-- ***** Main Banner Area Start ***** -->
-    <div class="main-banner" id="top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="left-content">
-                        <div class="thumb">
-                            <div class="inner-content">
-                                <h4>We Are Hexashop</h4>
-                                <span>Awesome, clean &amp; creative HTML5 Template</span>
-                                <div class="main-border-button">
-                                    <a href="#">Purchase Now!</a>
-                                </div>
-                            </div>
-                            <img src="assets/images/left-banner-image.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="right-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="right-first-image">
-                                    <div class="thumb">
-                                        <div class="inner-content">
-                                            <h4>資訊軟體系統類</h4>
-                                            <span>Best Laravel Backend For You</span>
-                                        </div>
-                                        <div class="hover-content">
-                                            <div class="inner">
-                                                <h4>Details</h4>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                <div class="main-border-button">
-                                                    <a href="#about">Learn More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="assets/images/baner-right-image-01.jpg">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="right-first-image">
-                                    <div class="thumb">
-                                        <div class="inner-content">
-                                            <h4>行銷／企劃／專案管理類</h4>
-                                            <span>Best Strategies For You</span>
-                                        </div>
-                                        <div class="hover-content">
-                                            <div class="inner">
-                                                <h4>Details</h4>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                <div class="main-border-button">
-                                                    <a href="#experience">Learn More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="assets/images/baner-right-image-02.jpg">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="right-first-image">
-                                    <div class="thumb">
-                                        <div class="inner-content">
-                                            <h4>操作／技術／維修類</h4>
-                                            <span>Best Technical Skills For You</span>
-                                        </div>
-                                        <div class="hover-content">
-                                            <div class="inner">
-                                                <h4>Details</h4>
-                                                <p>曾任職於3d列印機廠商工作內容:製造(機台與電路板組裝)、校正維修(機台初始定位與零件損壞維修)</p>
-                                                <div class="main-border-button">
-                                                    <a href="#skills">Learn More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="assets/images/baner-right-image-03.jpg">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="right-first-image">
-                                    <div class="thumb">
-                                        <div class="inner-content">
-                                            <h4>客服／門市／業務／貿易類</h4>
-                                            <span>Best Service For You</span>
-                                        </div>
-                                        <div class="hover-content">
-                                            <div class="inner">
-                                                <h4>Details</h4>
-                                                <p>曾任職景觀餐廳工作內容包含:房務、導覽園區、收銀、烤肉服務、餐廳外場、造景佈置、照顧小動物、客戶來訪前通知。</p>
-                                                <div class="main-border-button">
-                                                    <a href="#contact">Learn More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="assets/images/baner-right-image-04.jpg">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ***** Main Banner Area End ***** -->
-
-    <!-- ***** Men Area Starts ***** -->
-    <section class="section" id="men">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading">
-                        <h2>Men's Latest</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="men-item-carousel">
-                        <div class="owl-men-item owl-carousel">
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/men-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Spring</h4>
-                                    <span>$120.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/men-02.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Air Force 1 X</h4>
-                                    <span>$90.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/men-03.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Love Nana ‘20</h4>
-                                    <span>$150.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/men-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Spring</h4>
-                                    <span>$120.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Men Area Ends ***** -->
-
-    <!-- ***** Women Area Starts ***** -->
-    <section class="section" id="women">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading">
-                        <h2>Women's Latest</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="women-item-carousel">
-                        <div class="owl-women-item owl-carousel">
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/women-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>New Green Jacket</h4>
-                                    <span>$75.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/women-02.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Dress</h4>
-                                    <span>$45.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/women-03.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Spring Collection</h4>
-                                    <span>$130.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/women-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Spring</h4>
-                                    <span>$120.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Women Area Ends ***** -->
-
-    <!-- ***** Kids Area Starts ***** -->
-    <section class="section" id="kids">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading">
-                        <h2>Kid's Latest</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="kid-item-carousel">
-                        <div class="owl-kid-item owl-carousel">
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/kid-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>School Collection</h4>
-                                    <span>$80.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/kid-02.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Summer Cap</h4>
-                                    <span>$12.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/kid-03.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Kid</h4>
-                                    <span>$30.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <img src="assets/images/kid-01.jpg" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>Classic Spring</h4>
-                                    <span>$120.00</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Kids Area Ends ***** -->
-
-    <!-- ***** Explore Area Starts ***** -->
-    <section class="section" id="explore">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="left-content">
-                        <h2>Explore Our Products</h2>
-                        <span>You are allowed to use this HexaShop HTML CSS template. You can feel free to modify or
-                            edit this layout. You can convert this template as any kind of ecommerce CMS theme as you
-                            wish.</span>
-                        <div class="quote">
-                            <i class="fa fa-quote-left"></i>
-                            <p>You are not allowed to redistribute this template ZIP file on any other website.</p>
-                        </div>
-                        <p>There are 5 pages included in this HexaShop Template and we are providing it to you for
-                            absolutely free of charge at our TemplateMo website. There are web development costs for us.
-                        </p>
-                        <p>If this template is beneficial for your website or business, please kindly <a rel="nofollow"
-                                href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal.
-                            Please also tell your friends about our great website. Thank you.</p>
-                        <div class="main-border-button">
-                            <a href="products.html">Discover More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="right-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="leather">
-                                    <h4>Leather Bags</h4>
-                                    <span>Latest Collection</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="first-image">
-                                    <img src="assets/images/explore-image-01.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="second-image">
-                                    <img src="assets/images/explore-image-02.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="types">
-                                    <h4>Different Types</h4>
-                                    <span>Over 304 Products</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Explore Area Ends ***** -->
-
-    <!-- ***** Social Area Starts ***** -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading">
-                        <h2>Contact</h2>
-                        <span>Get in touch with me.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <form id="contact-form" action="" method="post">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <fieldset>
-                              <input name="name" type="text" id="name" placeholder="Your Name" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-6">
-                            <fieldset>
-                              <input name="email" type="email" id="email" placeholder="Your Email Address" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-12">
-                            <fieldset>
-                              <textarea name="message" rows="6" id="message" placeholder="Your Message" required=""></textarea>
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-12">
-                            <fieldset>
-                              <button type="submit" id="form-submit" class="main-button">Send Message</button>
-                            </fieldset>
-                          </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <ul>
-                                <li>地址:<br><span>台中市后里區聯合里</span></li>
-                                <li>電話:<br><span>0988496516</span></li>
-                                <li>郵件:<br><span>s9231158@gmail.com</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <ul>
-                                <li>工作時間:<br><span>8:00 AM - 5:00 PM</span></li>                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ***** Subscribe Area Ends ***** -->
-
-    <!-- ***** Footer Start ***** -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="under-footer">
-                        <p>Copyright © 2024 My Resume. All Rights Reserved.</p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-github"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- jQuery -->
-    <script src="assets/js/jquery-2.1.0.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="assets/js/popper.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-
-    <!-- Plugins -->
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/accordions.js"></script>
-    <script src="assets/js/datepicker.js"></script>
-    <script src="assets/js/scrollreveal.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/lightbox.js"></script>
-    <script src="assets/js/isotope.js"></script>
-
-    <!-- Global Init -->
-    <script src="assets/js/custom.js"></script>
 
     <script>
+        let currentImageIndex = 0;
+        const thumbnails = document.getElementsByClassName('thumbnail');
+        const mainImage = document.getElementById('mainImage');
+        let slideInterval;
 
-        $(function () {
-            var selectedClass = "";
-            $("p").click(function () {
-                selectedClass = $(this).attr("data-rel");
-                $("#portfolio").fadeTo(50, 0.1);
-                $("#portfolio div").not("." + selectedClass).fadeOut();
-                setTimeout(function () {
-                    $("." + selectedClass).fadeIn();
-                    $("#portfolio").fadeTo(50, 1);
-                }, 500);
+        function changeImage(element) {
+            // 取消所有縮圖的激活狀態
+            for (let i = 0; i < thumbnails.length; i++) {
+                thumbnails[i].classList.remove('active');
+            }
 
-            });
-        });
+            // 設定選中縮圖為激活狀態
+            element.classList.add('active');
 
+            // 更換主圖片
+            mainImage.src = element.src;
+
+            // 更新当前图片索引
+            currentImageIndex = Array.from(thumbnails).indexOf(element);
+        }
+
+        function slideLeft() {
+            var container = document.getElementById('thumbnailContainer');
+            container.scrollLeft -= 100; // 調整滾動量以控制滑動速度
+        }
+
+        function slideRight() {
+            var container = document.getElementById('thumbnailContainer');
+            container.scrollLeft += 100; // 調整滾動量以控制滑動速度
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % thumbnails.length;
+                changeImage(thumbnails[currentImageIndex]);
+            }, 200); // 每0.3秒切换图片
+        }
+
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        document.getElementById('thumbnailContainer').addEventListener('mouseenter', stopSlideShow);
+        document.getElementById('thumbnailContainer').addEventListener('mouseleave', startSlideShow);
+
+        // 开始幻灯片播放
+        startSlideShow();
     </script>
-
 </body>
 
 </html>
